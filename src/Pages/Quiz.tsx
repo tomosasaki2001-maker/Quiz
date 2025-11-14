@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 
 interface Quiz{
@@ -8,18 +8,16 @@ interface Quiz{
     answer:string,
 }
 
-// interface quizDate{
-//     question:string,
-//     correct_answer:string,
-//     incorrect_answers:string[],
 
-// }
 
 export default function Quiz() {
     const [currect, setCurrect] = useState<number>(0);
     const [answers, setAnswers] = useState<boolean[]>([]);
     const [quizDate, setQuizDate] = useState<Quiz[]>([]);
     const [loading,setLoading] = useState<boolean>(true);
+    const location =useLocation();
+    const genre = location.state.genre;
+    
 
     const shuffle = (array:string[]) =>{
         const result = [...array];
@@ -36,13 +34,13 @@ export default function Quiz() {
         const fetchQuiz = async() =>{
             try{
                 setLoading(true);
-                const res = await fetch("https://raw.githubusercontent.com/tomosasaki2001-maker/Quiz/main/public/quiz.json");
+                const res = await fetch("https://raw.githubusercontent.com/tomosasaki2001-maker/Quiz/refs/heads/main/public/quiz.json");
                 const data = await res.json();
 
                 const formatted:Quiz[]  = data.map((q:any)=>({
                     question:q.question,
-                    select:q.select,
-                    answers:q.answers,
+                    select:shuffle(q.select),
+                    answer:q.answer,
                 }));
                 setQuizDate(formatted);
                 setLoading(false)
@@ -72,6 +70,11 @@ export default function Quiz() {
         }
         
     }
+
+    const handleReset = () => {
+        setCurrect(0);
+        setAnswers([]);
+    }
   return (
     <div className="quiz">
         <h2 className="title">Quiz</h2>
@@ -85,6 +88,7 @@ export default function Quiz() {
         )}
 
         <div className="router">
+            <button onClick={handleReset}>最初から</button>
             
             <Link to = "/"><button>Home</button></Link>
         </div>
