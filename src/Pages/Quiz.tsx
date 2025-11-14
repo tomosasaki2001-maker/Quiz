@@ -16,7 +16,9 @@ export default function Quiz() {
     const [quizDate, setQuizDate] = useState<Quiz[]>([]);
     const [loading,setLoading] = useState<boolean>(true);
     const location =useLocation();
-    const {genre} = location.state || {genre:"sport"};
+    const {genre} = location.state || {genre:"onePiece"};
+    const {difficulty} = location.state || {difficulty:"easy"}
+    console.log(difficulty);
     console.log(genre);
 
     const shuffle = (array:string[]) =>{
@@ -34,7 +36,7 @@ export default function Quiz() {
         const fetchQuiz = async() =>{
             try{
                 setLoading(true);
-                const url = `https://raw.githubusercontent.com/tomosasaki2001-maker/Quiz/refs/heads/main/public/${genre}.json`
+                const url = `https://raw.githubusercontent.com/tomosasaki2001-maker/Quiz/refs/heads/main/public/${genre}/${difficulty}.json`
                 const res = await fetch(url);
                 const data = await res.json();
 
@@ -51,7 +53,7 @@ export default function Quiz() {
             }
         }
         fetchQuiz();
-    },[]);
+    },[genre,difficulty]);
 
     const handleNext = (s:string) =>{
         if(!quizDate[currect])return
@@ -67,6 +69,7 @@ export default function Quiz() {
                     correctNum:correctNum,
                     maxQuizLen: quizDate.length,
                     genre:genre,
+                    difficulty:difficulty,
                     
                 }
             })

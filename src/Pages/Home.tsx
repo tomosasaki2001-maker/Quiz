@@ -7,12 +7,13 @@ import { useNavigate } from "react-router-dom"
 
 
 export default function Home() {
-  const [genre, setGenre] = useState<string>("sport");
+  const [genre, setGenre] = useState<string>("onePiece");
   const [difficulty, setDifficulty] = useState<string>("easy")
   const nav = useNavigate()
   const handleStart = () =>{
     nav("/quiz" ,{
-      state:{genre}
+      state:{genre,difficulty}
+
     })
 
 
@@ -27,9 +28,10 @@ export default function Home() {
         <select name="" id="" value={genre} onChange={e=>setGenre(e.target.value)}>
           <option value="onePiece">ワンピース</option>
         </select>
+
         <select name="" id="" value={difficulty} onChange={e=>setDifficulty(e.target.value)}>
           <option value="easy">かんたん</option>
-          <option value="nomal"> ふつう</option>
+          <option value="normal"> ふつう</option>
           <option value="hard">むずかしい</option>
         </select>
       </label>
