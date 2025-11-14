@@ -8,6 +8,7 @@ export default function ResultPage() {
   const location = useLocation();
   const correctNum = location.state.correctNum;
   const maxQuizLen = location.state.maxQuizLen;
+  const genre = location.state.genre;
 
   const [active, setActive] = useState<boolean>(false);
 
@@ -35,7 +36,7 @@ export default function ResultPage() {
 
 
       <div className="router">
-        <Link to="/quiz"><button>もう一度挑戦</button></Link>
+        <Link to="/quiz" state={{genre}}><button>もう一度挑戦</button></Link>
 
         <Link to="/"><button>Home</button></Link>
       </div>

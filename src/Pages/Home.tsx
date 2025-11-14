@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom"
 
 export default function Home() {
   const [genre, setGenre] = useState<string>("sport");
+  const [difficulty, setDifficulty] = useState<string>("easy")
   const nav = useNavigate()
   const handleStart = () =>{
     nav("/quiz" ,{
@@ -24,10 +25,12 @@ export default function Home() {
       <label htmlFor="">
         ジャンルを選択：
         <select name="" id="" value={genre} onChange={e=>setGenre(e.target.value)}>
-          <option value="sport">スポーツ</option>
-          <option value="history">歴史</option>
-          <option value="science">科学</option>
-          <option value="anime">アニメ</option>
+          <option value="onepiece">ワンピース</option>
+        </select>
+        <select name="" id="" value={difficulty} onChange={e=>setDifficulty(e.target.value)}>
+          <option value="easy">かんたん</option>
+          <option value="nomal"> ふつう</option>
+          <option value="hard">むずかしい</option>
         </select>
       </label>
 
