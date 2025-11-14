@@ -25,7 +25,7 @@ export default function Home() {
       <label htmlFor="">
         ジャンルを選択：
         <select name="" id="" value={genre} onChange={e=>setGenre(e.target.value)}>
-          <option value="onepiece">ワンピース</option>
+          <option value="onePiece">ワンピース</option>
         </select>
         <select name="" id="" value={difficulty} onChange={e=>setDifficulty(e.target.value)}>
           <option value="easy">かんたん</option>
