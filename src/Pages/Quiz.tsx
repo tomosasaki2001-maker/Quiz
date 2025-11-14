@@ -8,15 +8,15 @@ interface Quiz{
     answer:string,
 }
 
-interface quizDate{
-    question:string,
-    correct_answer:string,
-    incorrect_answers:string[],
+// interface quizDate{
+//     question:string,
+//     correct_answer:string,
+//     incorrect_answers:string[],
 
-}
+// }
 
 export default function Quiz() {
-    const [correct, setCorrect] = useState<number>(0);
+    const [currect, setCurrect] = useState<number>(0);
     const [answers, setAnswers] = useState<boolean[]>([]);
     const [quizDate, setQuizDate] = useState<Quiz[]>([]);
     const [loading,setLoading] = useState<boolean>(true);
@@ -36,7 +36,7 @@ export default function Quiz() {
         const fetchQuiz = async() =>{
             try{
                 setLoading(true);
-                const res = await fetch();
+                const res = await fetch("https://raw.githubusercontent.com/tomosasaki2001-maker/Quiz/main/public/quiz.json");
                 const data = await res.json();
 
                 const formatted:Quiz[]  = data.map((q:any)=>({
@@ -51,10 +51,38 @@ export default function Quiz() {
                 setLoading(false);
             }
         }
-    },[])
+        fetchQuiz();
+    },[]);
+
+    const handleNext = (s:string) =>{
+        if(!quizDate[currect])return
+        const isCorrect:boolean = s===quizDate[currect].answer;
+        setAnswers((prev)=>[...prev, isCorrect]);
+
+        if(currect+1 < quizDate.length){
+            setCurrect((prev)=>prev+1);
+        }else{
+            const correctNum = [...answers, isCorrect].filter(Boolean).length;
+            nav("/result",{
+                state:{
+                    correctNum:correctNum,
+                    maxQuizLen: quizDate.length
+                }
+            })
+        }
+        
+    }
   return (
     <div className="quiz">
         <h2 className="title">Quiz</h2>
+        {quizDate.length > currect &&(
+            <div className="Q">
+                <h3>Q{currect+1}. {quizDate[currect].question}</h3>
+                {quizDate[currect].select.map((s,i)=>(
+                    <button key={i} onClick={()=>handleNext(s)}>{s}</button>
+                ))}
+            </div>
+        )}
 
         <div className="router">
             
